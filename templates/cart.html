@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block cartLinkClass %}active{% endblock  %}
+
+{% block content %}
+<section class="container cart-sect">
+    {% if cart_items.exists %}
+    <h1 class="text-center my-4">Shopping Cart</h1>
+        {% for item in cart_items %}
+        <div class="cart-container">
+            <div class="cart-item-image">
+                <img src="{{ item.product.images.first.image.url }}" alt="">
+            </div>
+            <div class="cart-item-text">
+                <h3>{{ item.product.name }}</h3>
+                <p class="item-size"><span>Size: </span>{{ item.size }}</p>
+                <p class="item_price"><span>RS. </span>{{ item.product.price }}</p>
+                <p class=" item-quantity d-inline" id="item-quantity"><span>Quantity: </span>{{ item.quantity }}</p>
+                <button class="quantity-btn" data-action="decrease" data-id="{{ item.product.unique_id }}">-</button>
+                <button class="quantity-btn" data-action="increase" data-id="{{ item.product.unique_id }}">+</button>
+                <button class="btn btn-danger remove-item " data-id="{{ item.product.unique_id }}">Remove <i class="fa-solid fa-trash-can"></i></button>
+            </div>
+        </div>
+        
+        {% endfor %}
+
+        <div class="cart-info" id="cart-info">
+            <h3 id="total-price">Total Price: RS. {{ total_price }}</h3>
+            <a href="{% url 'checkout' %}">Proceed To Checkout</a>
+        </div>
+    {% endif %}
+
+    <div class="empty-cart" id="empty-cart" style="display: {% if cart_items.exists %}none{% else %}flex{% endif %};">
+        <h1>Cart is empty</h1>
+        <a href="{% url 'shop' %}">Go to shop</a>
+    </div>
+</section>
+
+
+
+{% endblock %}
+{% block javaScript %}
+<script src="{% static 'js/product.js' %}"></script>
+{% endblock  %}

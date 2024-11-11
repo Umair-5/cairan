@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block CSS %}    
+<link rel="stylesheet" href="{% static 'css/checkout.css' %} ">
+{% endblock  %}
+{% block content %}
+<section>
+    <h1>Checkout Now</h1>
+    <form method="post" id="checkout-form" >
+        {% csrf_token %}
+        <label for="customer_name">Name:</label>
+        <input type="text" name="customer_name" id="customer_name" required>
+        <p class="error"></p>
+        <label for="phone_num">Phone Number:</label>
+        <input type="number" name="phone_num" id="phone_num" required>
+        <p class="error"></p>
+        <label for="email">Email address:</label>
+        <input type="email" name="email" id="email" required>
+        <p class="error"></p>
+        <label for="address">Delivery Address:</label>
+        <input type="text" name="address" id="address" required>
+        <p class="error"></p>
+        <label for="city">City:</label>
+        <input type="text" name="city" id="city" placeholder="Karachi" required>
+        <p class="error"></p>
+        <label for="state">State:</label>
+        <input type="text" name="state" id="state" placeholder="Sindh">
+        <p class="error"></p>
+        <label for="country">Country:</label>
+        <input type="text" name="country" id="country" value="Pakistan">
+        <p class="error"></p>
+        <h3>Total: RS.{{total_price}}</h3>
+        <button id="checkout" type="submit" class="btn">Checkout</button>
+    </form>
+</section>
+{% endblock content %}
+{% block javaScript %}
+<script src="{% static 'js/checkout.js' %}"></script>
+{% endblock  %}

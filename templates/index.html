@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block homeLinkClass %}active{% endblock  %}
+{% block content %}
+    <section id="main-sec">
+        <div class="main-text">
+            <div class="text-area">
+                <h3>OUTFIT OF THE DAY</h3>
+                <h1>ALL YOUR</h1>
+                <h1>STYLES ARE HERE</h1>
+                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Repellat nobis nisi sunt quae. Placeat amet eum pariatur quaerat, itaque nisi est quasi nulla aperiam tempora adipisci. Voluptatibus repellendus quaerat veniam.</p>
+                <button><a href="{% url 'shop' %}">BUY NOW<i class="fa-solid fa-chevron-right"></i></a></button>
+                <div class="socials">
+                    <a href="https://www.instagram.com/cairan_co" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://web.facebook.com/people/Cairan/100094351912076/?mibextid=ZbWKwL" target="_blank"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="#" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="main-image">
+            <img id="main-image" src="{% static 'media/Latest_Trendy_Men_Kurta_Design.png'%}" alt="">
+        </div>
+    </section>
+    <section id="product-cards">
+        <div class="container ">
+            <div class="row ">
+                <h1>Check Out Latest Collection</h1>
+
+                {% for product in products %}
+                    <div class="card col-md-4" style=" margin-bottom: 20px;">
+                       <a href="{% url 'product' slug=product.slug %}"><img id="card-image" src="{{ product.images.first.image.url }}" class="card-img-top" alt="{{ product.name }}"></a>
+                        <div class="card-body">
+                            <h5 class="card-title"><a class="text-black" href="{% url 'product' slug=product.slug %}">{{ product.name }}</a></h5>
+                            <h6 class="card-title">RS.{{ product.price }}</h6>
+                            <p class="d-none">{{ product.unique_id }}</p>
+                            <a href="{% url 'product' slug=product.slug %}"class="view-product-btn">View Product</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        
+    </section>
+        
+{% endblock %}

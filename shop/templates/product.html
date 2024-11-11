@@ -1,0 +1,65 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block shopLinkClass %}active{% endblock  %}
+
+{% block content %}
+<section>
+    <div id="product-detail">
+        <div class="product-image">
+            <img id="display-image" src="{{ product.images.first.image.url }}" alt="">
+            {% for image in product.images.all %}
+            <div class="image-preview">
+                <img src="{{ image.image.url }}" alt="" onclick="changeMainImage('{{ image.image.url }}')"> 
+            </div>    
+            {% endfor %}
+        </div>
+        <div class="product-text">
+            <h1>{{ product.name }}</h1>
+            <h2>RS. {{ product.price }}</h2>
+            <h6>Product Detail:</h6>
+            <p>{{ product.description }}</p>
+            
+            <form method="post" id="add-to-cart-form">
+                {% csrf_token %}
+                <input type="hidden" id="product_id" name="product_id" value="{{ product.unique_id }}">
+                <input type="hidden" id="selected-size" name="size" value="">
+                <button value="Small" name="size" class="size-btn">S</button>
+                <button value="Medium" name="size" class="size-btn">M</button>
+                <button value="Large" name="size" class="size-btn">L</button>
+                <button type="submit" class="add-to-cart-btn">Add To Cart</button>
+            </form>
+            
+        </div>
+        <div class="added-to-cart">
+            <i class="fa-solid fa-xmark close-btn"></i>
+            <h3>Product Added In Cart Successfully </h3>
+            <a class="btn go-to-cart-btn" href="{% url "cart" %}">Go To Cart</a>
+
+        </div>
+    </div>
+</section>
+
+
+<section id="product-cards">
+    <div class="container">
+        <div class="row">
+            <h1>View More Products</h1>
+            {% for all_product in all_products %}
+                <div class="card col-md-4" style="margin-bottom: 20px;">
+                   <a href="{% url 'product' slug=all_product.slug %}"><img id="card-image" src="{{ all_product.images.first.image.url }}" class="card-img-top" alt="{{ all_product.name }}"></a> 
+                    <div class="card-body">
+                        <h5 class="card-title"><a class="text-black" href="{% url 'product' slug=all_product.slug %}">{{ all_product.name }}</a></h5>
+                        <h6 class="card-title">RS. {{ all_product.price }}</h6>
+                        <p class="d-none">{{ all_product.unique_id }}</p>
+                        <a href="{% url 'product' slug=all_product.slug %}" class="view-product-btn">View Product</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+{% block javaScript %}
+<script src="{% static 'js/product.js' %}"></script>
+{% endblock  %}
